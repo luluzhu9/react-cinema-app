@@ -11,7 +11,7 @@ jobs:
           name: Show current branch
           command: echo ${CURRENT_BRANCH} # display CURRENT_BRANCH (current branch's name)
       - restore_cache: # restores cached dependency
-          key: # check if cache exists
+          keys: # check if cache exists
             - app-{{ checksum "package.json" }} 
             - app-
       - run:

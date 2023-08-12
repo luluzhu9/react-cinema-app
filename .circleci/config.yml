@@ -150,7 +150,7 @@ jobs:
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Project*:\n$CIRCLE_PROJECTS_REPONAME"
+                      "text": "*Project*:\n$CIRCLE_PROJECT_REPONAME"
                     }, 
                     {
                       "type": "mrkdwn",

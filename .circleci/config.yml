@@ -91,10 +91,10 @@ jobs:
       - run:
           name: Terraform Validate & Format
           command: |
-              cd infrastructure/
-              terraform init -backend=false
-              terraform validate
-              terraform fmt -check
+            cd infrastructure/
+            terraform init -backend=false
+            terraform validate
+            terraform fmt -check
 
   terraform-plan-and-apply:
     executor: terraform-executor

@@ -94,6 +94,7 @@ jobs:
             cd infrastructure/
             terraform init -backend=false
             terraform validate
+            terraform fmt
             terraform fmt -check
 
   terraform-plan-and-apply:

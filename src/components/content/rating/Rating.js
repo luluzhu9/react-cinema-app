@@ -28,18 +28,20 @@ const Rating = ({ rating, totalStars, className }) => {
   return (
     <div className="star-rating">
       <div className={`back-stars ${className}`}>
-        {numberOfStars && numberOfStars.map((i) => (
-            <Fragment key={i}>
-              <i className="fa fa-star" aria-hidden="true"></i>
-            </Fragment>
-        ))}
-        <div className={`front-stars ${className}`} ref={ratingRef}>
-          {numberOfStars && numberOfStars.map((i) => (
-            // Lets you group elements without wrapper code, need to assign key when rendering multiple in loop
+        {numberOfStars &&
+          numberOfStars.map((i) => (
             <Fragment key={i}>
               <i className="fa fa-star" aria-hidden="true"></i>
             </Fragment>
           ))}
+        <div className={`front-stars ${className}`} ref={ratingRef}>
+          {numberOfStars &&
+            numberOfStars.map((i) => (
+              // Lets you group elements without wrapper code, need to assign key when rendering multiple in loop
+              <Fragment key={i}>
+                <i className="fa fa-star" aria-hidden="true"></i>
+              </Fragment>
+            ))}
         </div>
       </div>
     </div>

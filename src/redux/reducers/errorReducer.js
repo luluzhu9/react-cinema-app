@@ -1,7 +1,11 @@
-const initalState = '';
+import { SET_ERROR } from '../types';
 
-export default (state = initalState, action) => {
+const initialState = '';
+
+export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_ERROR:
+      return action.payload;
     default:
       return state;
   }

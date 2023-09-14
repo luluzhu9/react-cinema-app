@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './Slideshow.scss';
 
 const Slideshow = (props) => {
-  const { images, auto, showArrows } = props; // destructure arguments here
+  const { images, auto, showArrows } = props;
   const [state, setState] = useState({
     slideShow: images[0],
     slideIndex: 0
@@ -16,6 +16,11 @@ const Slideshow = (props) => {
   let currentSlideIndex = 0;
 
   useEffect(() => {
+    setState({
+      ...state,
+      slideIndex: 0,
+      slideShow: images[0]
+    });
     if (auto) {
       const timeInterval = setInterval(() => {
         autoMoveSlide();
@@ -27,7 +32,9 @@ const Slideshow = (props) => {
         clearInterval(sliderInterval);
       };
     }
-  }, []);
+
+    // eslint-disable-next-line
+  }, [images]);
 
   const autoMoveSlide = () => {
     let lastIndex = 0;
@@ -64,7 +71,6 @@ const Slideshow = (props) => {
     }));
   };
 
-  // component in a component
   const RenderArrows = () => {
     return (
       <div className="slider-arrows">
@@ -74,7 +80,6 @@ const Slideshow = (props) => {
     );
   };
 
-  // Number of indicators = how many images are in the array
   const Indicators = (props) => {
     const { currentSlide } = props;
     const listIndicators = images.map((slide, i) => {

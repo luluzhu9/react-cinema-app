@@ -258,7 +258,7 @@ jobs:
 workflows:
   build_and_deploy:
     jobs:
-      - build
+      - build # some issue with everything other than build right now
       - linting:
           requires:
             - build

@@ -280,7 +280,6 @@ workflows:
       - terraform-validate:
           requires:
             - linting
-            - prettier
           filters:
             branches:
               only:

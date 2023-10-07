@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRoutes } from 'react-router-dom';
-import Main from './components/main/Main';
 import Details from './components/content/details/Details';
+import Main from './components/main/Main';
 
 export const AppRoutes = (props) => {
   const elements = useRoutes([

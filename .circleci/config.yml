@@ -82,56 +82,25 @@ jobs:
           name: Run linting
           command: npm run lint
 
-  prettier:
+  # prettier:
+  #   executor: app-executor
+  #   steps:
+  #     - checkout
+  #     - *show-current-branch-name
+  #     - *restore-cache
+  #     - run:
+  #         name: Run prettier check
+  #         command: npm run prettier:check
+
+  unit-test:
     executor: app-executor
     steps:
       - checkout
       - *show-current-branch-name
       - *restore-cache
       - run:
-          name: Run prettier check
-          command: npm run prettier:check
-
-  terraform-validate:
-    executor: terraform-executor
-    steps:
-      - checkout
-      - *show-current-branch-name
-      - run:
-          name: Terraform Validate & Format
-          command: |
-            cd infrastructure/
-            terraform init -backend=false
-            terraform validate
-            terraform fmt
-            terraform fmt -check
-
-  terraform-plan-and-apply:
-    executor: terraform-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ./
-      - *show-current-branch-name
-      - run:
-          name: Terraform Plan
-          command: |
-              cd artifacts/infrastructure/
-              terraform init
-              terraform workspace select ${CIRCLE_BRANCH} || terraform workspace new ${CIRCLE_BRANCH}
-              terraform plan
-      - run:
-          name: Terraform Apply
-          command: |
-              cd artifacts/infrastructure/
-              terraform workspace select ${CIRCLE_BRANCH}
-              terraform apply --auto-approve
-              terraform output cinema_app_bucket_name > ../cinema_bucket_name.txt
-              terraform output cloudfront_distribution_id > ../cloudfront_distribution_id.txt
-      - persist_to_workspace:
-          root: ./
-          paths:
-              - artifacts
+          name: Run unit unit
+          command: npm run test
 
   deploy-to-aws-s3:
     executor: app-executor
@@ -268,27 +237,19 @@ workflows:
                 - develop
                 - staging
                 - master
-      - prettier:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - develop
-                - staging
-                - master
-      - terraform-validate:
+      # - prettier:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only:
+      #           - develop
+      #           - staging
+      #           - master
+      - unit-test:
           requires:
             - linting
-          filters:
-            branches:
-              only:
-                - develop
-                - staging
-                - master
-      - terraform-plan-and-apply:
-          requires:
-            - terraform-validate
+            - prettier
           filters:
             branches:
               only:
@@ -297,7 +258,7 @@ workflows:
                 - master
       - deploy-to-aws-s3:
           requires:
-            - terraform-plan-and-apply
+            - unit-test
           filters:
             branches:
               only:

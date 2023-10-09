@@ -249,7 +249,6 @@ workflows:
       - unit-test:
           requires:
             - linting
-            - prettier
           filters:
             branches:
               only:

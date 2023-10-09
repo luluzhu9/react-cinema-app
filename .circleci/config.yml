@@ -113,6 +113,7 @@ jobs:
             cd infrastructure/
             terraform init -backend=false
             terraform validate
+            terraform fmt
             terraform fmt -check
 
   terraform-plan-and-apply:
@@ -151,7 +152,7 @@ jobs:
       - *show-current-branch-name
       - *install-aws-cli
       - *build-project
-      - run: # moves items in build to bucket, deletes items from build
+      - run:
           name: Deploy to AWS S3
           command: |
             AWS_BUCKET_NAME=$(cat artifacts/cinema_bucket_name.txt | sed 's/\"//g')
@@ -315,7 +316,7 @@ workflows:
                 - master
       - deploy-to-aws-s3:
           requires:
-            - unit-test
+            - terraform-plan-and-apply
           filters:
             branches:
               only:
